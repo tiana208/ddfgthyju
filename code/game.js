@@ -327,13 +327,13 @@ Player.prototype.act = function(step, level, keys) {
 };
 
 Level.prototype.playerTouched = function(type, actor) {
-  if (type == "coin") {
+  if (type == "coin", "slide") {
     this.actors = this.actors.filter(function(other) {
       return other != actor;
     });
   }
 };
-
+/*
 Level.prototype.playerTouched = function(type, actor) {
   if (type == "slide") {
     this.actors = this.actors.filter(function(other) {
@@ -341,7 +341,7 @@ Level.prototype.playerTouched = function(type, actor) {
     });
   }
 };
-/*
+
 Level.prototype.playerTouched = function(type, actor) {
 	if (type == 'slide') {
 		this.actors = this.actors.filter(function(other){
