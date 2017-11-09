@@ -85,14 +85,20 @@ function Coin(pos) {
 Coin.prototype.type = "coin";
 
 //Slide
-
 function Slide(pos) {
+  this.basePos = this.pos = pos.plus(new Vector(0.2, 0.1));
+  this.size = new Vector(0.6, 0.6);
+  // Make it go back and forth in a sine wave.
+  this.wobble = Math.random() * Math.PI * 2;
+}
+Slide.prototype.type = "slide";
+/*function Slide(pos) {
 	this.basePos = this.pos = pos.plus(new Vector(0.2, 0.1));
 	this.size = new Vector(0.6, 0.6);
 	this.wobble = Math.random() * Math.PI * 2;
 }
 Slide.prototype.type = 'slide';
-
+*/
 // Helper function to easily create an element of a type provided 
 // and assign it a class.
 function elt(name, className) {
@@ -256,12 +262,19 @@ Coin.prototype.act = function(step) {
   this.pos = this.basePos.plus(new Vector(0, wobblePos));
 };
 
-//slide
+
+Slide.prototype.act = function(step) {
+  this.wobble += step * wobbleSpeed;
+  var wobblePos = Math.sin(this.wobble) * wobbleDist;
+  this.pos = this.basePos.plus(new Vector(0, wobblePos));
+};
+
+/*slide
 Slide.prototype.act= function(step) {
 	this.wobble += step * wobbleSpeed;
 	var wobblePos = Math.sin(this.wobble) * wobbleDist;
 	this.pos = this.basePos.plus(new Vector(0, wobblePos));
-};
+};*/
 
 var maxStep = 0.05;
 
@@ -322,11 +335,19 @@ Level.prototype.playerTouched = function(type, actor) {
 };
 
 Level.prototype.playerTouched = function(type, actor) {
+  if (type == "slide") {
+    this.actors = this.actors.filter(function(other) {
+      return other != actor;
+    });
+  }
+};
+/*
+Level.prototype.playerTouched = function(type, actor) {
 	if (type == 'slide') {
 		this.actors = this.actors.filter(function(other){
 		});
 	}
-};
+}; */
 
 
 // Arrow key codes for readibility
